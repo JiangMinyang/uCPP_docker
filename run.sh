@@ -24,12 +24,23 @@ function stop {
 	fi
 }
 
+function remove {
+	stop;
+	RESULT=`docker ps -a | grep 'jiangminyang/ucpp' | grep cs343 | grep 'Exited' | awk '{ print $1 }'`;
+	if [[ ! -z "${RESULT}" ]]; then
+		docker rm cs343;
+	fi
+}
+
 case "$1" in
 	start)
 		start $2
 		;;
 	stop)
 		stop
+		;;
+	remove)
+		remove
 		;;
 	*)
 		start
