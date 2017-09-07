@@ -1,6 +1,6 @@
 #!/bin/bash
-function start {
-	workspace=${PWD}
+function create {
+	workspace="${PWD}/workspace"
 	if [ ! -z "${1}" ]; then
 		workspace="${1}";
 	fi
@@ -8,8 +8,26 @@ function start {
 	if [[ -z "${RESULT}" ]]; then
 		RESULT=`docker ps -a | grep 'jiangminyang/ucpp' | grep cs343 | grep 'Exited' | awk '{ print $1 }'`;
 		if [[ -z "${RESULT}" ]]; then
-			echo createing cs343 container...
+			echo "createing cs343 container..."
 			docker create -it --name cs343 --volume "${workspace}":/workspace jiangminyang/ucpp;
+		else
+			echo "container already exist in exiting state..."
+		fi
+		echo "starting cs343 container..."
+		docker start cs343;
+	else
+		echo "container already exist..."
+	fi
+	docker exec -it cs343 bash;
+}
+
+function start {
+	RESULT=`docker ps -a | grep 'jiangminyang/ucpp' | grep 'Up' | awk '{ print $1 }'`;
+	if [[ -z "${RESULT}" ]]; then
+		RESULT=`docker ps -a | grep 'jiangminyang/ucpp' | grep cs343 | grep 'Exited' | awk '{ print $1 }'`;
+		if [[ -z "${RESULT}" ]]; then
+			echo createing cs343 container...
+			docker create -it --name cs343 --volume ${PWD}/workspace:/workspace jiangminyang/ucpp;
 		fi
 		echo starting cs343 container...
 		docker start cs343;
@@ -33,8 +51,11 @@ function remove {
 }
 
 case "$1" in
+	create)
+		create $2
+		;;
 	start)
-		start $2
+		start
 		;;
 	stop)
 		stop
