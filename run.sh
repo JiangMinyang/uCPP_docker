@@ -4,9 +4,9 @@ function create {
 	if [ ! -z "${1}" ]; then
 		workspace="${1}";
 	fi
-	RESULT=`docker ps -a | grep 'jiangminyang/ucpp' | grep 'Up' | awk '{ print $1 }'`;
+	RESULT=`docker ps -a | grep 'cs343' | grep 'Up' | awk '{ print $1 }'`;
 	if [[ -z "${RESULT}" ]]; then
-		RESULT=`docker ps -a | grep 'jiangminyang/ucpp' | grep cs343 | grep 'Exited' | awk '{ print $1 }'`;
+		RESULT=`docker ps -a | grep 'cs343' | grep cs343 | grep 'Exited' | awk '{ print $1 }'`;
 		if [[ -z "${RESULT}" ]]; then
 			echo "createing cs343 container..."
 			docker create -it --name cs343 --volume "${workspace}":/workspace jiangminyang/ucpp;
@@ -22,9 +22,9 @@ function create {
 }
 
 function start {
-	RESULT=`docker ps -a | grep 'jiangminyang/ucpp' | grep 'Up' | awk '{ print $1 }'`;
+	RESULT=`docker ps -a | grep 'cs343' | grep 'Up' | awk '{ print $1 }'`;
 	if [[ -z "${RESULT}" ]]; then
-		RESULT=`docker ps -a | grep 'jiangminyang/ucpp' | grep cs343 | grep 'Exited' | awk '{ print $1 }'`;
+		RESULT=`docker ps -a | grep 'cs343' | grep cs343 | grep 'Exited' | awk '{ print $1 }'`;
 		if [[ -z "${RESULT}" ]]; then
 			echo createing cs343 container...
 			docker create -it --name cs343 --volume ${PWD}/workspace:/workspace jiangminyang/ucpp;
@@ -36,7 +36,7 @@ function start {
 }
 
 function stop {
-	RESULT=`docker ps -a | grep 'jiangminyang/ucpp' | grep 'Up' | awk '{ print $1 }'`;
+	RESULT=`docker ps -a | grep 'cs343' | grep 'Up' | awk '{ print $1 }'`;
 	if [[ ! -z "${RESULT}" ]]; then
 			docker stop cs343;
 	fi
@@ -44,7 +44,7 @@ function stop {
 
 function remove {
 	stop;
-	RESULT=`docker ps -a | grep 'jiangminyang/ucpp' | grep cs343 | grep 'Exited' | awk '{ print $1 }'`;
+	RESULT=`docker ps -a | grep 'cs343' | grep cs343 | grep 'Exited' | awk '{ print $1 }'`;
 	if [[ ! -z "${RESULT}" ]]; then
 		docker rm cs343;
 	fi

@@ -3,7 +3,7 @@ MAINTAINER Minyang Jiang <minyang@minyang-jiang.com>
 
 WORKDIR /workspace
 
-RUN apt-get update && apt-get install -y wget build-essential software-properties-common 
+RUN apt-get update && apt-get install -y wget build-essential software-properties-common vim
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
 RUN apt-get update
 RUN apt-get install gcc-6 g++-6 -y
